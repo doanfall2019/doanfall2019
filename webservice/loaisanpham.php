@@ -16,5 +16,6 @@
 		echo json_encode($chuoijson, JSON_UNESCAPED_UNICODE);
 	}
 	echo "}";
+	// Hello world 
 
 ?>
