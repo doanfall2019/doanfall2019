@@ -40,8 +40,8 @@ import java.util.List;
 
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
 
-    public static final String SERVER_NAME = "http://10.88.54.54/webservice/apiserver.php";
-    public static final String SERVER = "http://10.88.54.54/webservice";
+    public static final String SERVER_NAME = "http://192.168.43.254/webservice/apiserver.php";
+    public static final String SERVER = "http://192.168.43.254/webservice";
 
     Toolbar toolbar;
     TabLayout tabLayout;
