@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,9 +26,12 @@ import java.util.List;
 public class AdapterGioHang extends RecyclerView.Adapter<AdapterGioHang.ViewHolderGioHang> {
   Context context;
     List<SanPham> sanPhamList;
+    ModelGioHang modelGioHang;
     public  AdapterGioHang(Context context, List<SanPham> sanPhamList){
       this.context =context;
       this.sanPhamList =sanPhamList;
+      modelGioHang = new ModelGioHang();
+      modelGioHang.MoKetNoiSQL(context);
     }
 
 
@@ -44,7 +48,7 @@ public class AdapterGioHang extends RecyclerView.Adapter<AdapterGioHang.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderGioHang holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolderGioHang holder, final int position) {
         final SanPham sanPham = sanPhamList.get(position);
 
         holder.txtTenSanPhamGioHang.setText(sanPham.getTENSP());
@@ -66,11 +70,38 @@ public class AdapterGioHang extends RecyclerView.Adapter<AdapterGioHang.ViewHold
                 ModelGioHang modelGioHang =new ModelGioHang();
                 modelGioHang.MoKetNoiSQL(context);
                 modelGioHang.XoaSanPhamTrongGioHang((int)v.getTag());
-                sanPhamList.get(position);
+                sanPhamList.remove(position);
                 notifyDataSetChanged();
             }
         });
+        holder.txtSoLuongSanPham.setText(String.valueOf(sanPham.getSOLUONG()));
+        holder.imTangSoLuongSanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int soluong = Integer.parseInt(holder.txtSoLuongSanPham.getText().toString());
+                int soluongtonkho =sanPham.getSOLUONGTONKHO();
+                if (soluong < soluongtonkho){
+                    soluong++;
+                }
+                modelGioHang.CapNhatSoLuongSanPhamGioHang(sanPham.getMASP(),soluong);
 
+                holder.txtSoLuongSanPham.setText(String.valueOf(soluong));
+
+            }
+        });
+        holder.imGiamSoLuongSanPham.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int soluong = Integer.parseInt(holder.txtSoLuongSanPham.getText().toString());
+                if(soluong > 1){
+                    soluong--;
+                }
+                holder.txtSoLuongSanPham.setText(String.valueOf(soluong));
+                modelGioHang.CapNhatSoLuongSanPhamGioHang(sanPham.getMASP(),soluong);
+
+
+            }
+        });
 
     }
 
@@ -80,8 +111,9 @@ public class AdapterGioHang extends RecyclerView.Adapter<AdapterGioHang.ViewHold
     }
 
     public class ViewHolderGioHang extends RecyclerView.ViewHolder {
-        TextView txtTenSanPhamGioHang, txtGiaTienGioHang;
+        TextView txtTenSanPhamGioHang, txtGiaTienGioHang, txtSoLuongSanPham;
         ImageView imHinhGioHang, imXoaSanPhamGioHang;
+        ImageButton imTangSoLuongSanPham, imGiamSoLuongSanPham;
         public ViewHolderGioHang(@NonNull View itemView) {
             super(itemView);
             txtGiaTienGioHang = itemView.findViewById(R.id.txtGiaGioHang);
@@ -89,6 +121,13 @@ public class AdapterGioHang extends RecyclerView.Adapter<AdapterGioHang.ViewHold
 
             imHinhGioHang = itemView.findViewById(R.id.imHinhGioHang);
             imXoaSanPhamGioHang = itemView.findViewById(R.id.imXoaSanPham);
+
+            txtSoLuongSanPham = itemView.findViewById(R.id.txtSoLuongSanPham);
+            imGiamSoLuongSanPham= itemView.findViewById(R.id.imGiamSoLuongSPTrongGioHang);
+            imTangSoLuongSanPham = itemView.findViewById(R.id.imTangSoLuongSPTrongGioHang);
+
+
+
         }
     }
 }

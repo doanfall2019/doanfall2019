@@ -8,6 +8,7 @@ public class SanPham {
     String TENSP;
     List<ChiTietSanPham> chiTietSanPhamList;
 
+
     ChiTietKhuyenMai chiTietKhuyenMai;
 
     public ChiTietKhuyenMai getChiTietKhuyenMai() {
@@ -17,6 +18,17 @@ public class SanPham {
     public void setChiTietKhuyenMai(ChiTietKhuyenMai chiTietKhuyenMai) {
         this.chiTietKhuyenMai = chiTietKhuyenMai;
     }
+
+
+    public int getSOLUONGTONKHO() {
+        return SOLUONGTONKHO;
+    }
+
+    public void setSOLUONGTONKHO(int SOLUONGTONKHO) {
+        this.SOLUONGTONKHO = SOLUONGTONKHO;
+    }
+
+    int SOLUONGTONKHO;
 
     public byte[] getHinhGioHang() {
         return HinhGioHang;

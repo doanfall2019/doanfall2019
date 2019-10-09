@@ -42,8 +42,10 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
     ImageView imThemGioHang;
     SanPham sanPhamGioHang;
     TextView txtGioHang;
+    int soluongtonkho;
     List<Fragment> fragmentList;
      Menu menu;
+     boolean onPause =false;
     Toolbar toolbar;
 
     @Override
@@ -71,11 +73,12 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
                 ImageView imageView = (ImageView) view.findViewById(R.id.imHinhSlider);
                 Bitmap bitmap =((BitmapDrawable)imageView.getDrawable()).getBitmap();
 
-                imThemGioHang.setImageBitmap(bitmap);
+                //imThemGioHang.setImageBitmap(bitmap);
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG,100,byteArrayOutputStream);
                 byte[] hinhsanphamgiohang = byteArrayOutputStream.toByteArray();
                 sanPhamGioHang.setHinhGioHang(hinhsanphamgiohang);
+                sanPhamGioHang.setSOLUONG(1);
                 presenterLogicChiTietSanPham.ThemGioHang(sanPhamGioHang,ChiTietSanPhamActivity.this);
 
             }
@@ -106,7 +109,9 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
 
     @Override
     public void HienThiChiTietSanPham(SanPham sanPham) {
+
         sanPhamGioHang = sanPham;
+        sanPhamGioHang.setSOLUONGTONKHO(sanPham.getSOLUONG());
     }
 
     @Override
@@ -141,6 +146,23 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
         Toast.makeText(this, "That bai", Toast.LENGTH_SHORT).show();
 
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (onPause == true){
+            PresenterLogicChiTietSanPham presenterLogicChiTietSanPham = new PresenterLogicChiTietSanPham();
+            txtGioHang.setText(String.valueOf(presenterLogicChiTietSanPham.DemSanPhamTrongGioHang(this)));
+        }
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        onPause = true;
+    }
+
 
     private void ThemDotSlider(int vitrihientai){
         txtDots = new TextView[fragmentList.size()];

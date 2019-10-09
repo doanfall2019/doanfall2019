@@ -53,6 +53,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     CollapsingToolbarLayout collapsingToolbarLayout;
     Menu menu;
     TextView txtGioHang;
+    boolean onPause = false;
     ModelDangNhap modelDangNhap;
     Button btnSearch;
     ImageButton im_btn_Search;
@@ -171,6 +172,23 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
 
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (onPause == true){
+            PresenterLogicChiTietSanPham presenterLogicChiTietSanPham = new PresenterLogicChiTietSanPham();
+            txtGioHang.setText(String.valueOf(presenterLogicChiTietSanPham.DemSanPhamTrongGioHang(this)));
+        }
+        }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        onPause = true;
     }
 
     @Override
