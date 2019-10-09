@@ -7,6 +7,15 @@ public class SanPham {
     String ANHLON, ANHNHO, THONGTIN;
     String TENSP;
     List<ChiTietSanPham> chiTietSanPhamList;
+    ChiTietKhuyenMai chiTietKhuyenMai;
+
+    public ChiTietKhuyenMai getChiTietKhuyenMai() {
+        return chiTietKhuyenMai;
+    }
+
+    public void setChiTietKhuyenMai(ChiTietKhuyenMai chiTietKhuyenMai) {
+        this.chiTietKhuyenMai = chiTietKhuyenMai;
+    }
 
     public int getMATHUONGHIEU() {
         return MATHUONGHIEU;

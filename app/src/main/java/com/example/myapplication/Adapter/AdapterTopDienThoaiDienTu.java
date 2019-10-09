@@ -2,6 +2,7 @@ package com.example.myapplication.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Model.ObjectClass.ChiTietKhuyenMai;
 import com.example.myapplication.Model.ObjectClass.SanPham;
 import com.example.myapplication.R;
 import com.example.myapplication.View.ChiTietSanPham.ChiTietSanPhamActivity;
@@ -66,8 +68,23 @@ public class AdapterTopDienThoaiDienTu extends RecyclerView.Adapter<AdapterTopDi
         Picasso.with(context).load(sanPham.getANHLON()).resize(140,140).centerInside().into(holder.imHinhSanPham);
         holder.txtTenSanPham.setText(sanPham.getTENSP());
 
+        ChiTietKhuyenMai chiTietKhuyenMai = sanPham.getChiTietKhuyenMai();
+        int giatien = sanPham.getGIA();
+
+        if (chiTietKhuyenMai != null){
+            int phantramkm = chiTietKhuyenMai.getPHANTRAMKM();
+
+            NumberFormat numberFormat = new DecimalFormat("###,###");
+            String gia = numberFormat.format(giatien);
+            holder.txtGiamGia.setVisibility(View.VISIBLE);
+            holder.txtGiamGia.setPaintFlags(holder.txtGiamGia.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.txtGiamGia.setText(gia + " VND");
+            giatien = giatien*phantramkm/100;
+
+        }
+
         NumberFormat numberFormat = new DecimalFormat("###,###");
-        String gia = numberFormat.format(sanPham.getGIA()).toString();
+        String gia = numberFormat.format(giatien);
         holder.txtGiaTien.setText(gia+ " VND");
         holder.cardView.setTag(sanPham.getMASP());
 

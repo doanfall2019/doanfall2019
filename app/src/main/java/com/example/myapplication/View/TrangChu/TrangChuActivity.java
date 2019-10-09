@@ -107,6 +107,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
             case R.id.itDangNhap:
                 Intent iDangNhap = new Intent(this, DangNhapActivity.class);
                 startActivity(iDangNhap);
+                break;
 
             case R.id.itSearch:
                 Intent iTimkiem = new Intent(this, TimKiemActivity.class);
