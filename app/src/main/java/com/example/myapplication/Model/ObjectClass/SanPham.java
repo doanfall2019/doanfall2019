@@ -7,6 +7,7 @@ public class SanPham {
     String ANHLON, ANHNHO, THONGTIN;
     String TENSP;
     List<ChiTietSanPham> chiTietSanPhamList;
+<<<<<<< HEAD
     ChiTietKhuyenMai chiTietKhuyenMai;
 
     public ChiTietKhuyenMai getChiTietKhuyenMai() {
@@ -16,6 +17,17 @@ public class SanPham {
     public void setChiTietKhuyenMai(ChiTietKhuyenMai chiTietKhuyenMai) {
         this.chiTietKhuyenMai = chiTietKhuyenMai;
     }
+=======
+    public byte[] getHinhGioHang() {
+        return HinhGioHang;
+    }
+
+    public void setHinhGioHang(byte[] hinhGioHang) {
+        HinhGioHang = hinhGioHang;
+    }
+
+    byte [] HinhGioHang;
+>>>>>>> f7994b3d6e08da67bb85bffa0b8e7001a3b60e0c
 
     public int getMATHUONGHIEU() {
         return MATHUONGHIEU;
