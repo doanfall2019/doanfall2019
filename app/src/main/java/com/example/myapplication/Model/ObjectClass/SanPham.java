@@ -7,6 +7,15 @@ public class SanPham {
     String ANHLON, ANHNHO, THONGTIN;
     String TENSP;
     List<ChiTietSanPham> chiTietSanPhamList;
+    public byte[] getHinhGioHang() {
+        return HinhGioHang;
+    }
+
+    public void setHinhGioHang(byte[] hinhGioHang) {
+        HinhGioHang = hinhGioHang;
+    }
+
+    byte [] HinhGioHang;
 
     public int getMATHUONGHIEU() {
         return MATHUONGHIEU;
