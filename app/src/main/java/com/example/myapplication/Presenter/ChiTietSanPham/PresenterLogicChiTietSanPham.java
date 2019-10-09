@@ -24,6 +24,8 @@ public class PresenterLogicChiTietSanPham implements  IPresenterChiTietSanPham {
         if (sanPham.getMASP() > 0){
             String[] linkhinhanh = sanPham.getANHNHO().split(",");
             viewChiTietSanPham.HienSliderSanPham(linkhinhanh);
+            //hien thi phuong thuc chi tiet san pham
+            viewChiTietSanPham.HienThiChiTietSanPham(sanPham);
         }
     }
 }

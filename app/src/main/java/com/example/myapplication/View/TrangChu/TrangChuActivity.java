@@ -35,9 +35,12 @@ import java.util.List;
 
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
 
-    public static final String SERVER_NAME = "http://192.168.43.254/webservice/apiserver.php";
-    public static final String SERVER = "http://192.168.43.254/webservice";
-
+//    public static final String SERVER_NAME = "http://192.168.3.6/webservice/apiserver.php";
+//    public static final String SERVER = "http://192.168.3.6/webservice";
+//    public static final String SERVER_NAME = "http://10.88.54.71/webservice/apiserver.php";
+//    public static final String SERVER = "http://10.88.54.71/webservice";
+    public static final String SERVER_NAME = "http://10.22.208.210/webservice/apiserver.php";
+    public static final String SERVER = "http://10.22.208.210/webservice";
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -156,11 +159,9 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
             case R.id.im_btn_Search:
                 Intent iTimkiem = new Intent(this, TimKiemActivity.class);
                 startActivity(iTimkiem);
-                break;
-            case R.id.btnSearch:
-                Intent iTimkiem1 = new Intent(this, TimKiemActivity.class);
-                startActivity(iTimkiem1);
-                break;
+               ; break;
+
+
         }
     }
 }

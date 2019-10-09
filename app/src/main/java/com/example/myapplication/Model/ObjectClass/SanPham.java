@@ -6,7 +6,17 @@ public class SanPham {
     int MASP, GIA, SOLUONG,MALOAISP,MANGUOIDUNG, LUOTMUA, MATHUONGHIEU;
     String ANHLON, ANHNHO, THONGTIN;
     String TENSP;
+    String TENNGUOIDUNG;
     List<ChiTietSanPham> chiTietSanPhamList;
+    public String getTENNGUOIDUNG() {
+        return TENNGUOIDUNG;
+    }
+
+    public void setTENNGUOIDUNG(String TENNGUOIDUNG) {
+        this.TENNGUOIDUNG = TENNGUOIDUNG;
+    }
+
+
 
     public int getMATHUONGHIEU() {
         return MATHUONGHIEU;
