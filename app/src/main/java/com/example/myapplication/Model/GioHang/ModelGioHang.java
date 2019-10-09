@@ -22,8 +22,11 @@ public class ModelGioHang {
             contentValues.put(DataSanPham.TB_GIOHANG_TENSP, sanPham.getTENSP());
             contentValues.put(DataSanPham.TB_GIOHANG_GIATIEN, sanPham.getGIA());
             contentValues.put(DataSanPham.TB_GIOHANG_HINHANH,sanPham.getHinhGioHang());
+            contentValues.put(DataSanPham.TB_GIOHANG_SOLUONG,sanPham.getSOLUONG());
+            contentValues.put(DataSanPham.TB_GIOHANG_SOLUONGTON,sanPham.getSOLUONGTONKHO());
 
             long id = database.insert(DataSanPham.TB_GIOHANG,null, contentValues);
+
             if(id>0) {
                 return true;
             }else {
@@ -40,6 +43,19 @@ public class ModelGioHang {
                 return  false;
             }
     }
+
+        public  boolean CapNhatSoLuongSanPhamGioHang (int masp, int soluong){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DataSanPham.TB_GIOHANG_SOLUONG,soluong);
+        int id =database.update(DataSanPham.TB_GIOHANG, contentValues,DataSanPham.TB_GIOHANG_MASP + " ="+ masp,null);
+            if (id > 0) {
+                    return  true;
+            }else {
+                return  false;
+            }
+    }
+
         public List<SanPham> LayDanhSachSPTrongGH(){
             List<SanPham> sanPhamList =new ArrayList<>();
 
@@ -52,16 +68,22 @@ public class ModelGioHang {
                 String tensp = cursor.getString(cursor.getColumnIndex(DataSanPham.TB_GIOHANG_TENSP));
                 int giatien = cursor.getInt(cursor.getColumnIndex(DataSanPham.TB_GIOHANG_GIATIEN));
                 byte [] hinhanh = cursor.getBlob(cursor.getColumnIndex(DataSanPham.TB_GIOHANG_HINHANH));
+                int soluong = cursor.getInt(cursor.getColumnIndex(DataSanPham.TB_GIOHANG_SOLUONG));
+                int soluongtonkho = cursor.getInt(cursor.getColumnIndex(DataSanPham.TB_GIOHANG_SOLUONGTON));
 
                 SanPham sanPham = new SanPham();
                 sanPham.setMASP(masp);
                 sanPham.setTENSP(tensp);
                 sanPham.setGIA(giatien);
                 sanPham.setHinhGioHang(hinhanh);
+                sanPham.setSOLUONG(soluong);
+                sanPham.setSOLUONGTONKHO(soluongtonkho);
 
                 sanPhamList.add(sanPham);
                 cursor.moveToNext();
             }
             return  sanPhamList;
         }
+
+
 }

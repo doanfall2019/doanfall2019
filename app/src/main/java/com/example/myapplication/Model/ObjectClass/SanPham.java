@@ -7,6 +7,16 @@ public class SanPham {
     String ANHLON, ANHNHO, THONGTIN;
     String TENSP;
     List<ChiTietSanPham> chiTietSanPhamList;
+
+    public int getSOLUONGTONKHO() {
+        return SOLUONGTONKHO;
+    }
+
+    public void setSOLUONGTONKHO(int SOLUONGTONKHO) {
+        this.SOLUONGTONKHO = SOLUONGTONKHO;
+    }
+
+    int SOLUONGTONKHO;
     public byte[] getHinhGioHang() {
         return HinhGioHang;
     }
