@@ -24,6 +24,9 @@
             android:name=".View.TrangChu.TrangChuActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".View.ThanhToan.ThanhToanActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".View.ManHinhChao.ManHinhChaoActivity"
             android:screenOrientation="portrait">
             <intent-filter>
