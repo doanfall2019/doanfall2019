@@ -10,7 +10,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Adapter.ExpandAdapter;
 import com.example.myapplication.Adapter.ViewPagerAdapter;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.Model.DangNhap_DangKy.ModelDangNhap;
 import com.example.myapplication.Model.ObjectClass.LoaiSanPham;
 import com.example.myapplication.Presenter.ChiTietSanPham.PresenterLogicChiTietSanPham;
@@ -36,6 +41,8 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
@@ -94,6 +101,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         im_btn_Search.setOnClickListener(this);
 
         appBarLayout.addOnOffsetChangedListener(this);
+
     }
 
     @Override

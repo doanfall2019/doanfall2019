@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">Makto App</string>
+    <string name="app_name">Makto </string>
 
     <string name="open">Mở</string>
     <string name="close">Đóng</string>
+
+    <string name="facebook_app_id">2522497891351041</string>
+
 </resources>

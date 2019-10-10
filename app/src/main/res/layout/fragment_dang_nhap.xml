@@ -37,11 +37,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/txtQuenMatKhauDangNhap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="right"
-        android:text="Quên mật khẩu?"
+        android:text="Quên mật khẩu ?"
         android:textColor="@color/colorPrimary" />
 
     <Button
@@ -66,6 +67,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnDangNhapFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -76,6 +78,7 @@
             android:layout_margin="10dp"/>
 
         <Button
+            android:id="@+id/btnDangNhapGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
