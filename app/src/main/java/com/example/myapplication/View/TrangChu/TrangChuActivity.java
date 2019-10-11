@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.core.view.ViewCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -18,14 +19,18 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.Adapter.ExpandAdapter;
 import com.example.myapplication.Adapter.ViewPagerAdapter;
 import com.example.myapplication.Model.DangNhap_DangKy.ModelDangNhap;
 import com.example.myapplication.Model.ObjectClass.LoaiSanPham;
+import com.example.myapplication.Presenter.ChiTietSanPham.PresenterLogicChiTietSanPham;
 import com.example.myapplication.Presenter.TrangChu.XuLyMenu.PresenterLogicXuLyMenu;
 import com.example.myapplication.R;
 import com.example.myapplication.View.DangNhap_DangKy.DangNhapActivity;
+import com.example.myapplication.View.GioHang.GioHangActivity;
 import com.example.myapplication.View.TimKiem.TimKiemActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -35,12 +40,17 @@ import java.util.List;
 
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
 
+
 //    public static final String SERVER_NAME = "http://192.168.3.6/webservice/apiserver.php";
 //    public static final String SERVER = "http://192.168.3.6/webservice";
-//    public static final String SERVER_NAME = "http://10.88.54.71/webservice/apiserver.php";
-//    public static final String SERVER = "http://10.88.54.71/webservice";
-    public static final String SERVER_NAME = "http://10.22.208.210/webservice/apiserver.php";
-    public static final String SERVER = "http://10.22.208.210/webservice";
+
+//    public static final String SERVER_NAME = "http://10.22.211.192/webservice/apiserver.php";
+//    public static final String SERVER = "http://10.22.211.192/webservice";
+//
+// truong
+public static final String SERVER_NAME = "http://10.88.54.71/webservice/apiserver.php";
+ public static final String SERVER = "http://10.88.54.71/webservice";
+
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -50,6 +60,8 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     AppBarLayout appBarLayout;
     CollapsingToolbarLayout collapsingToolbarLayout;
     Menu menu;
+    TextView txtGioHang;
+    boolean onPause = false;
     ModelDangNhap modelDangNhap;
     Button btnSearch;
     ImageButton im_btn_Search;
@@ -96,6 +108,23 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menutrangchu, menu);
         this.menu = menu;
+
+        MenuItem iGioHang = this.menu.findItem(R.id.itGioHang);
+        View giaoDienCustomGioHang = MenuItemCompat.getActionView(iGioHang);
+        txtGioHang = giaoDienCustomGioHang.findViewById(R.id.txtSoLuongSanPham);
+
+        giaoDienCustomGioHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               Intent a = new Intent(TrangChuActivity.this, GioHangActivity.class);
+               startActivity(a);
+            }
+        });
+
+        PresenterLogicChiTietSanPham presenterLogicChiTietSanPham = new PresenterLogicChiTietSanPham();
+
+        txtGioHang.setText(String.valueOf(presenterLogicChiTietSanPham.DemSanPhamTrongGioHang(this)));
+
         return true;
     }
 
@@ -150,6 +179,23 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
 
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (onPause == true){
+            PresenterLogicChiTietSanPham presenterLogicChiTietSanPham = new PresenterLogicChiTietSanPham();
+            txtGioHang.setText(String.valueOf(presenterLogicChiTietSanPham.DemSanPhamTrongGioHang(this)));
+        }
+        }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        onPause = true;
     }
 
     @Override

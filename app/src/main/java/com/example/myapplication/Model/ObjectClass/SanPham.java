@@ -18,6 +18,25 @@ public class SanPham {
 
 
 
+    public int getSOLUONGTONKHO() {
+        return SOLUONGTONKHO;
+    }
+
+    public void setSOLUONGTONKHO(int SOLUONGTONKHO) {
+        this.SOLUONGTONKHO = SOLUONGTONKHO;
+    }
+
+    int SOLUONGTONKHO;
+    public byte[] getHinhGioHang() {
+        return HinhGioHang;
+    }
+
+    public void setHinhGioHang(byte[] hinhGioHang) {
+        HinhGioHang = hinhGioHang;
+    }
+
+    byte [] HinhGioHang;
+
     public int getMATHUONGHIEU() {
         return MATHUONGHIEU;
     }

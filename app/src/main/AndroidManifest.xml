@@ -12,7 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.DanhGia.ThemDanhGia1Activity"></activity>
+        <activity android:name=".View.DanhGia.DanhSachDanhGiaActivity"></activity>
+        <activity
+            android:name=".View.DanhGia.ThemDanhGia1Activity"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".View.ChiTietSanPham.ChiTietSanPhamActivity" />
         <activity android:name=".View.TimKiem.TimKiemActivity" />
         <activity android:name=".View.HienThiSanPhamTheoDanhMuc.HienThiSanPhamTheoDanhMucActivity" />
@@ -22,6 +25,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".View.TrangChu.TrangChuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".View.GioHang.GioHangActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".View.ManHinhChao.ManHinhChaoActivity"
@@ -34,8 +40,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
