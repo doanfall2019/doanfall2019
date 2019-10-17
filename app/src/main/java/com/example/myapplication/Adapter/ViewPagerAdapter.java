@@ -26,25 +26,25 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     public ViewPagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
-        listFragment.add(new FragmentNoiBat());
+//        listFragment.add(new FragmentNoiBat());
         listFragment.add(new FragmentChuongTrinhKhuyenMai());
         listFragment.add(new FragmentDienTu());
-        listFragment.add(new FragmentNhaCuaVaDoiSong());
-        listFragment.add(new FragmentMeVaBe());
-        listFragment.add(new FragmentLamDep());
-        listFragment.add(new FragmentThoiTrang());
-        listFragment.add(new FragmentTheThaoVaDuLich());
-        listFragment.add(new FragmentThuongHieu());
+//        listFragment.add(new FragmentNhaCuaVaDoiSong());
+//        listFragment.add(new FragmentMeVaBe());
+//        listFragment.add(new FragmentLamDep());
+//        listFragment.add(new FragmentThoiTrang());
+//        listFragment.add(new FragmentTheThaoVaDuLich());
+//        listFragment.add(new FragmentThuongHieu());
 
-        titleFragment.add("Nổi bật");
+//        titleFragment.add("Nổi bật");
         titleFragment.add("Chương trình khuyến mãi");
         titleFragment.add("Điện tử");
-        titleFragment.add("Nhà cửa & đời sống");
-        titleFragment.add("Mẹ và bé");
-        titleFragment.add("Làm đẹp");
-        titleFragment.add("Thời trang");
-        titleFragment.add("Thể thao và du lịch");
-        titleFragment.add("Thương hiệu");
+//        titleFragment.add("Nhà cửa & đời sống");
+//        titleFragment.add("Mẹ và bé");
+//        titleFragment.add("Làm đẹp");
+//        titleFragment.add("Thời trang");
+//        titleFragment.add("Thể thao và du lịch");
+//        titleFragment.add("Thương hiệu");
     }
 
     @NonNull

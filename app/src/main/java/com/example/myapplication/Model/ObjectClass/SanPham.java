@@ -18,6 +18,18 @@ public class SanPham {
 
 
 
+
+    ChiTietKhuyenMai chiTietKhuyenMai;
+
+    public ChiTietKhuyenMai getChiTietKhuyenMai() {
+        return chiTietKhuyenMai;
+    }
+
+    public void setChiTietKhuyenMai(ChiTietKhuyenMai chiTietKhuyenMai) {
+        this.chiTietKhuyenMai = chiTietKhuyenMai;
+    }
+
+
     public int getSOLUONGTONKHO() {
         return SOLUONGTONKHO;
     }
@@ -27,6 +39,7 @@ public class SanPham {
     }
 
     int SOLUONGTONKHO;
+
     public byte[] getHinhGioHang() {
         return HinhGioHang;
     }
@@ -36,6 +49,7 @@ public class SanPham {
     }
 
     byte [] HinhGioHang;
+
 
     public int getMATHUONGHIEU() {
         return MATHUONGHIEU;

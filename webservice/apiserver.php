@@ -64,6 +64,44 @@
 			$ham();
 			break;
 
+		case 'LayDanhSachKhuyenMai':
+			$ham();
+			break;
+
+	}
+
+	function LayDanhSachKhuyenMai(){
+		global $conn;
+		$chuoijson = array();
+		$ngayhientai = date("y/m/d");
+
+		$truyvan = "SELECT * FROM khuyenmai km, loaisanpham lsp WHERE DATEDIFF(km.NGAYKETTHUC,'".$ngayhientai."') >=0  AND km.MALOAISP = lsp.MALOAISP";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		echo "{";
+		echo "\"DANHSACHKHUYENMAI\":";
+
+		if($ketqua){
+			while ($dong = mysqli_fetch_array($ketqua)) {
+				$truyvanchitietkm = "SELECT * FROM chitietkhuyenmai ctkm, sanpham sp WHERE ctkm.MAKM='".$dong["MAKM"]."' AND ctkm.MASP=sp.MASP";
+				$ketquakhuyenmai = mysqli_query($conn,$truyvanchitietkm);
+
+				$chuoijsondanhsachsanpham = array();
+
+				if($ketquakhuyenmai){
+					while ($dongkhuyenmai = mysqli_fetch_array($ketquakhuyenmai)) {
+						$chuoijsondanhsachsanpham[] = $dongkhuyenmai;
+					}
+				}
+
+				array_push($chuoijson,array("MAKM"=>$dong["MAKM"],"TENLOAISP"=>$dong["TENLOAISP"],"TENKM"=>$dong["TENKM"],"HINHKHUYENMAI"=>$dong["HINHKHUYENMAI"], "DANHSACHSANPHAM"=>$chuoijsondanhsachsanpham));
+
+			}
+		}
+
+		echo json_encode($chuoijson, JSON_UNESCAPED_UNICODE);
+		echo "}";
+
 	}
 	function ThemDanhGia(){
 			global $conn;
