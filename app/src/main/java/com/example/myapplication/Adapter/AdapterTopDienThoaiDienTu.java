@@ -67,7 +67,7 @@ public class AdapterTopDienThoaiDienTu extends RecyclerView.Adapter<AdapterTopDi
         holder.txtTenSanPham.setText(sanPham.getTENSP());
 
         NumberFormat numberFormat = new DecimalFormat("###,###");
-        String gia = numberFormat.format(sanPham.getGIA()).toString();
+        String gia = numberFormat.format(sanPham.getGIA());
         holder.txtGiaTien.setText(gia+ " VND");
         holder.cardView.setTag(sanPham.getMASP());
 

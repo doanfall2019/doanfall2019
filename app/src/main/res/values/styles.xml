@@ -28,5 +28,9 @@
         <attr name="userStrike" format="boolean" />
         <attr name="userValidate" format="boolean"/>
     </declare-styleable>
+    <style name="DoiMauNgoiSaoRaTingBar" parent="AppTheme">
+        <item name="colorControlNormal">@color/bgLogo</item>
+    </style>
+
 
 </resources>

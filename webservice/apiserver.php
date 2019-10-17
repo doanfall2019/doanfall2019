@@ -1,4 +1,5 @@
 <?php 
+//Hieu ga
 	include_once("config.php");
 
 	if(isset($_POST["ham"]))
@@ -55,11 +56,37 @@
 		case 'TimKiemSanPhamTheoTenSP':
 			$ham();
 			break;
+			case 'ThemDanhGia':
+			$ham();
+			break;
 
 		case 'LaySanPhamVsChitietTheoMaSP':
 			$ham();
 			break;
 
+	}
+	function ThemDanhGia(){
+			global $conn;
+			if(isset($_POST["madg"]) || isset($_POST["masp"]) || isset($_POST["tenthietbi"]) || isset($_POST["tieude"]) || isset($_POST["noidung"]) || isset($_POST["sosao"])){
+				$madg = $_POST["madg"];
+				$masp =$_POST["masp"];
+				$tenthietbi =$_POST["tenthietbi"];
+				$tieude =$_POST["tieude"];
+				$noidung =$_POST["noidung"];
+				$sosao =$_POST["sosao"];
+				
+
+
+			}
+			$ngaydang = date("d/m/Y");
+			$truyvan = "INSERT INTO danhgia (MADG,MASP,TENTHIETBI,TIEUDE,NOIDUNG,SOSAO,NGAYDANG) VALUE('".$madg."','".$masp."','".$tenthietbi."','".$tieude."','".$noidung."','".$sosao."','".$ngaydang."')";
+			$ketqua = mysqli_query($conn, $truyvan);
+			if($ketqua){
+					echo "{ketqua:true}";
+			}else{
+				echo "{ketqua:false}".mysqli_error($const);
+			}
+			
 	}
 
 	function LaySanPhamVsChitietTheoMaSP(){
@@ -70,7 +97,7 @@
 			$masp = $_POST["masp"];
 		}
 
-		$truyvan = "SELECT * FROM sanpham WHERE MASP=".$masp;
+		$truyvan = "SELECT * FROM sanpham sp , nguoidung nd WHERE MASP=".$masp." AND sp.MANGUOIDUNG = nd.MANGUOIDUNG ";
 		$ketqua = mysqli_query($conn, $truyvan);
 
 		echo "{";
@@ -88,7 +115,7 @@
 
 		if($ketqua){
 			while ($dong = mysqli_fetch_array($ketqua)) {
-				array_push($chuoijson,array("MASP"=>$dong["MASP"],"TENSP"=>$dong["TENSP"],"GIATIEN"=>$dong["GIA"],"SOLUONG"=>$dong["SOLUONG"],"HINHSANPHAM"=>$dong["HINHLON"],"HINHSANPHAMNHO"=>$dong["HINHNHO"],"THONGTIN"=>$dong["THONGTIN"],"MALOAISP"=>$dong["MALOAISP"],"MATHUONGHIEU"=>$dong["MATHUONGHIEU"],"MANGUOIDUNG"=>$dong["MANGUOIDUNG"],"LUOTMUA"=>$dong["LUOTMUA"],"THONGSOKYTHUAT"=>$chuoijsonchitiet));
+				array_push($chuoijson,array("MASP"=>$dong["MASP"],"TENSP"=>$dong["TENSP"],"GIATIEN"=>$dong["GIA"],"SOLUONG"=>$dong["SOLUONG"],"HINHSANPHAM"=>$dong["HINHLON"],"HINHSANPHAMNHO"=>$dong["HINHNHO"],"THONGTIN"=>$dong["THONGTIN"],"MALOAISP"=>$dong["MALOAISP"],"MATHUONGHIEU"=>$dong["MATHUONGHIEU"],"MANGUOIDUNG"=>$dong["MANGUOIDUNG"],"TENNGUOIDUNG"=>$dong["TENNGUOIDUNG"],"LUOTMUA"=>$dong["LUOTMUA"],"THONGSOKYTHUAT"=>$chuoijsonchitiet));
 			}
 		}
 
