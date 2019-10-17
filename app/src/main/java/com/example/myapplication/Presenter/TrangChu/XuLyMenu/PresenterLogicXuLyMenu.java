@@ -1,13 +1,22 @@
 package com.example.myapplication.Presenter.TrangChu.XuLyMenu;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Half;
 import android.util.Log;
 
 import com.example.myapplication.ConnectInternet.DownloadJSON;
+import com.example.myapplication.Model.DangNhap_DangKy.ModelDangNhap;
 import com.example.myapplication.Model.ObjectClass.LoaiSanPham;
 import com.example.myapplication.Model.TrangChu.XuLyMenu.XuLyJSONMenu;
 import com.example.myapplication.View.TrangChu.TrangChuActivity;
 import com.example.myapplication.View.TrangChu.ViewXuLyMenu;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +25,7 @@ import java.util.concurrent.ExecutionException;
 
 public class PresenterLogicXuLyMenu implements IPresenterXuLyMenu {
     ViewXuLyMenu viewXuLyMenu;
+    String tennguoidung="";
 
     public PresenterLogicXuLyMenu(ViewXuLyMenu viewXuLyMenu){
         this.viewXuLyMenu = viewXuLyMenu;
@@ -64,4 +74,15 @@ public class PresenterLogicXuLyMenu implements IPresenterXuLyMenu {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public AccessToken LayTenNguoiDungFaceBook() {
+        ModelDangNhap modelDangNhap = new ModelDangNhap();
+        AccessToken accessToken = modelDangNhap.LayTokenFacebookHienTai();
+
+
+
+        return accessToken;
+    }
+
 }

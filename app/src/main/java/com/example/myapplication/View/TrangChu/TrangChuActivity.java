@@ -37,18 +37,34 @@ import com.example.myapplication.R;
 import com.example.myapplication.View.DangNhap_DangKy.DangNhapActivity;
 import com.example.myapplication.View.GioHang.GioHangActivity;
 import com.example.myapplication.View.TimKiem.TimKiemActivity;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
+public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     public static final String SERVER_NAME = "http://192.168.43.254/webservice/apiserver.php";
     public static final String SERVER = "http://192.168.43.254/webservice";
+
+//    public static final String SERVER_NAME = "http://10.22.209.137/webservice/apiserver.php";
+//    public static final String SERVER = "http://10.22.209.137/webservice";
+
 
     Toolbar toolbar;
     TabLayout tabLayout;
@@ -64,11 +80,18 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     ModelDangNhap modelDangNhap;
     Button btnSearch;
     ImageButton im_btn_Search;
-
+    PresenterLogicXuLyMenu logicXuLyMenu;
+    String tennguoidung = "";
+    AccessToken accessToken;
+    MenuItem itemDangNhap;
+    MenuItem menuItemDangXuat;
+    GoogleApiClient mGoogleApiClient;
+    GoogleSignInResult googleSignInResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_trang_chu);
 
         toolbar = findViewById(R.id.toolbar);
@@ -94,8 +117,14 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
 
-        PresenterLogicXuLyMenu logicXuLyMenu = new PresenterLogicXuLyMenu(this);
+        logicXuLyMenu = new PresenterLogicXuLyMenu(this);
+        modelDangNhap = new ModelDangNhap();
         logicXuLyMenu.LayDanhSachMenu();
+
+        logicXuLyMenu.LayTenNguoiDungFaceBook();
+
+        mGoogleApiClient = modelDangNhap.LayGoogleApiClient(this, this);
+
 
         btnSearch.setOnClickListener(this);
         im_btn_Search.setOnClickListener(this);
@@ -105,9 +134,46 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menutrangchu, menu);
         this.menu = menu;
+
+        itemDangNhap = menu.findItem(R.id.itDangNhap);
+        menuItemDangXuat = menu.findItem(R.id.itDangXuat);
+
+        accessToken = logicXuLyMenu.LayTenNguoiDungFaceBook();
+        googleSignInResult = modelDangNhap.LayThongTinDangNhapGoogle(mGoogleApiClient);
+        if (accessToken != null) {
+            GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object, GraphResponse response) {
+                    try {
+                        tennguoidung = object.getString("name");
+
+                        itemDangNhap.setTitle(tennguoidung);
+//                        Log.d("token", tennguoidung);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            Bundle parameter = new Bundle();
+            parameter.putString("fields", "name");
+
+            graphRequest.setParameters(parameter);
+            graphRequest.executeAsync();
+        }
+
+        if (googleSignInResult != null){
+            itemDangNhap.setTitle(googleSignInResult.getSignInAccount().getDisplayName());
+        }
+
+
+        if (accessToken != null ||googleSignInResult != null) {
+            menuItemDangXuat.setVisible(true);
+        }
+
 
         MenuItem iGioHang = this.menu.findItem(R.id.itGioHang);
         View giaoDienCustomGioHang = MenuItemCompat.getActionView(iGioHang);
@@ -116,8 +182,8 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         giaoDienCustomGioHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Intent a = new Intent(TrangChuActivity.this, GioHangActivity.class);
-               startActivity(a);
+                Intent a = new Intent(TrangChuActivity.this, GioHangActivity.class);
+                startActivity(a);
             }
         });
 
@@ -137,14 +203,31 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         int id = item.getItemId();
         switch (id) {
             case R.id.itDangNhap:
-                Intent iDangNhap = new Intent(this, DangNhapActivity.class);
-                startActivity(iDangNhap);
+                if (accessToken == null && googleSignInResult == null) {
+                    Intent iDangNhap = new Intent(this, DangNhapActivity.class);
+                    startActivity(iDangNhap);
+                }
                 break;
+
+            case R.id.itDangXuat:
+               if (accessToken != null){
+                   LoginManager.getInstance().logOut();
+                   this.menu.clear();
+                   this.onCreateOptionsMenu(this.menu);
+               }
+               if (googleSignInResult != null){
+                   Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                   this.menu.clear();
+                   this.onCreateOptionsMenu(this.menu);
+               }
+                break;
+
 
             case R.id.itSearch:
                 Intent iTimkiem = new Intent(this, TimKiemActivity.class);
                 startActivity(iTimkiem);
                 break;
+
         }
         return true;
     }
@@ -185,11 +268,11 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     @Override
     protected void onResume() {
         super.onResume();
-        if (onPause == true){
+        if (onPause == true) {
             PresenterLogicChiTietSanPham presenterLogicChiTietSanPham = new PresenterLogicChiTietSanPham();
             txtGioHang.setText(String.valueOf(presenterLogicChiTietSanPham.DemSanPhamTrongGioHang(this)));
         }
-        }
+    }
 
 
     @Override
@@ -212,5 +295,10 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
                 startActivity(iTimkiem1);
                 break;
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
