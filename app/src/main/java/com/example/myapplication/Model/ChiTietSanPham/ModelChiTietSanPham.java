@@ -60,11 +60,12 @@ public class ModelChiTietSanPham {
                 sanPham.setMALOAISP(object.getInt("MALOAISP"));
                 sanPham.setMATHUONGHIEU(object.getInt("MATHUONGHIEU"));
                 sanPham.setMANGUOIDUNG(object.getInt("MANGUOIDUNG"));
+                sanPham.setTENNGUOIDUNG(object.getString("TENNGUOIDUNG"));
                 sanPham.setLUOTMUA(object.getInt("LUOTMUA"));
 
                 JSONArray jsonArrayThongSoKyThuat = object.getJSONArray("THONGSOKYTHUAT");
                 for (int j=0; j<jsonArrayThongSoKyThuat.length(); j++){
-                    JSONObject jsonObject1 = jsonArrayThongSoKyThuat.getJSONObject(i);
+                    JSONObject jsonObject1 = jsonArrayThongSoKyThuat.getJSONObject(j);
                     for (int k=0; k<jsonObject1.names().length(); k++){
                         String tenchitiet = jsonObject1.names().getString(k);
                         ChiTietSanPham chiTietSanPham = new ChiTietSanPham();

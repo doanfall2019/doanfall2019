@@ -33,6 +33,7 @@ public class PresenterLogicChiTietSanPham implements  IPresenterChiTietSanPham {
         if (sanPham.getMASP() > 0){
             String[] linkhinhanh = sanPham.getANHNHO().split(",");
             viewChiTietSanPham.HienSliderSanPham(linkhinhanh);
+
             viewChiTietSanPham.HienThiChiTietSanPham(sanPham);
         }
     }
@@ -45,6 +46,10 @@ public class PresenterLogicChiTietSanPham implements  IPresenterChiTietSanPham {
             viewChiTietSanPham.ThemGioHangThanhCong();
         }else {
             viewChiTietSanPham.ThemGioHangThatBai();
+
+            //hien thi phuong thuc chi tiet san pham
+            viewChiTietSanPham.HienThiChiTietSanPham(sanPham);
+
         }
     }
     public int DemSanPhamTrongGioHang(Context context){

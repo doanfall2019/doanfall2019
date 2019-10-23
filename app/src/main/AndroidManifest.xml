@@ -3,6 +3,7 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.ChiTietSanPham.ChiTietSanPhamActivity"></activity>
+        <activity android:name=".View.DanhGia.ThemDanhGia1Activity"></activity>
+        <activity android:name=".View.ChiTietSanPham.ChiTietSanPhamActivity" />
         <activity android:name=".View.TimKiem.TimKiemActivity" />
         <activity android:name=".View.HienThiSanPhamTheoDanhMuc.HienThiSanPhamTheoDanhMucActivity" />
         <activity
@@ -20,6 +22,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".View.TrangChu.TrangChuActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".View.ThanhToan.ThanhToanActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".View.GioHang.GioHangActivity"
@@ -35,7 +40,8 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"></activity>
+
     </application>
 
 </manifest>
