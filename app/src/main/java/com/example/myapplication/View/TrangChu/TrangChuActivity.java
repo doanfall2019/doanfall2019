@@ -59,9 +59,12 @@ import java.util.List;
 
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-    public static final String SERVER_NAME = "http://192.168.43.254/webservice/apiserver.php";
-    public static final String SERVER = "http://192.168.43.254/webservice";
-    
+//    public static final String SERVER_NAME = "http://192.168.43.254/webservice/apiserver.php";
+//    public static final String SERVER = "http://192.168.43.254/webservice";
+
+    public static final String SERVER_NAME = "http://192.168.1.35/webservice/apiserver.php";
+    public static final String SERVER = "http://192.168.1.35/webservice";
+
     Toolbar toolbar;
     TabLayout tabLayout;
     ViewPager viewPager;
@@ -166,7 +169,13 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         }
 
 
-        if (accessToken != null || googleSignInResult != null) {
+        String tennguoidung = modelDangNhap.LayCachedDangNhap(this);
+        if (!tennguoidung.equals("")) {
+
+            itemDangNhap.setTitle(tennguoidung);
+        }
+
+        if (accessToken != null || googleSignInResult != null || !tennguoidung.equals("")) {
             menuItemDangXuat.setVisible(true);
         }
 
@@ -199,7 +208,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         int id = item.getItemId();
         switch (id) {
             case R.id.itDangNhap:
-                if (accessToken == null && googleSignInResult == null) {
+                if (accessToken == null && googleSignInResult == null && modelDangNhap.LayCachedDangNhap(this).equals("")) {
                     Intent iDangNhap = new Intent(this, DangNhapActivity.class);
                     startActivity(iDangNhap);
                 }
@@ -213,6 +222,11 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
                 }
                 if (googleSignInResult != null) {
                     Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+                    this.menu.clear();
+                    this.onCreateOptionsMenu(this.menu);
+                }
+                if (!modelDangNhap.LayCachedDangNhap(this).equals("")) {
+                    modelDangNhap.CapNhatCachedDangNhap(this, "");
                     this.menu.clear();
                     this.onCreateOptionsMenu(this.menu);
                 }

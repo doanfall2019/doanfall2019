@@ -37,6 +37,13 @@ public class ModelDangNhap {
 
     }
 
+    public void CapNhatCachedDangNhap(Context context, String tennguoidung){
+        SharedPreferences cachedDangNhap = context.getSharedPreferences("dangnhap", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = cachedDangNhap.edit();
+        editor.putString("tennguoidung", tennguoidung);
+        editor.commit();
+    }
+
     public boolean KiemTraDangNhap(Context context, String tendangnhap, String matkhau){
         boolean kiemtra = false;
         String duongdan = TrangChuActivity.SERVER_NAME;
@@ -65,11 +72,9 @@ public class ModelDangNhap {
             if (jsonKetQua.equals("true")){
                 kiemtra = true;
                 String tennguoidung = jsonObject.getString("tennguoidung");
-                SharedPreferences cachedDangNhap = context.getSharedPreferences("dangnhap", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = cachedDangNhap.edit();
-                editor.putString("tennguoidung", tennguoidung);
 
-                editor.commit();
+                CapNhatCachedDangNhap(context, tennguoidung);
+
             } else {
                 kiemtra = false;
             }
