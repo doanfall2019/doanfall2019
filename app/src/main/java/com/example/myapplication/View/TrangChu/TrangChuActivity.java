@@ -299,7 +299,6 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
             case R.id.im_btn_Search:
                 Intent iTimkiem = new Intent(this, TimKiemActivity.class);
                 startActivity(iTimkiem);
-                ;
                 break;
 
 
