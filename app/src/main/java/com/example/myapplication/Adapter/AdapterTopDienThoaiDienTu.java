@@ -87,6 +87,7 @@ public class AdapterTopDienThoaiDienTu extends RecyclerView.Adapter<AdapterTopDi
 
         String gia = numberFormat.format(giatien);
 
+
         //String gia = numberFormat.format(sanPham.getGIA());
 
         holder.txtGiaTien.setText(gia+ " VND");

@@ -23,6 +23,7 @@ public class AdapterDienTu extends RecyclerView.Adapter<AdapterDienTu.ViewHolder
 
     Context context;
     List<DienTu> dienTuList;
+    int[] imHinhKhuyenMai = {R.drawable.banner_phone,R.drawable.banner_phukien,R.drawable.banner_tienich};
 
     public AdapterDienTu(Context context, List<DienTu> dienTuList) {
         this.context = context;
@@ -51,19 +52,20 @@ public class AdapterDienTu extends RecyclerView.Adapter<AdapterDienTu.ViewHolder
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.custom_recyclerview_dientu, parent, false);
 
-        ViewHolderDienTu  viewHolderDienTu = new ViewHolderDienTu(view);
+        ViewHolderDienTu viewHolderDienTu = new ViewHolderDienTu(view);
 
         return viewHolderDienTu;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderDienTu holder, int position) {
-       DienTu dienTu = dienTuList.get(position);
+        DienTu dienTu = dienTuList.get(position);
 
-       holder.txtTieuDeSanPhamNoiBat.setText(dienTu.getTennoibat().toString());
+        holder.imKhuyenMaiDienTu.setImageResource(imHinhKhuyenMai[position]);
+        holder.txtTieuDeSanPhamNoiBat.setText(dienTu.getTennoibat().toString());
         holder.txtTopSanPhamNoiBat.setText(dienTu.getTentopnoibat().toString());
 
-       // xử lý hiển thị danh sách thuong hiệu lớn
+        // xử lý hiển thị danh sách thuong hiệu lớn
         AdapterThuongHieuLon adapterThuongHieuLon = new AdapterThuongHieuLon(context, dienTu.getThuongHieus(), dienTu.getThuonghieu());
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(context, 3, GridLayoutManager.HORIZONTAL, false);
@@ -73,9 +75,9 @@ public class AdapterDienTu extends RecyclerView.Adapter<AdapterDienTu.ViewHolder
         adapterThuongHieuLon.notifyDataSetChanged();
 
         // xử lý hiển thị danh sách TOP sản phẩm
-        AdapterTopDienThoaiDienTu adapterTopDienThoaiDienTu = new AdapterTopDienThoaiDienTu(context,R.layout.custom_layout_topdienthoaivamaytinhbang ,dienTu.getSanPhams());
+        AdapterTopDienThoaiDienTu adapterTopDienThoaiDienTu = new AdapterTopDienThoaiDienTu(context, R.layout.custom_layout_topdienthoaivamaytinhbang, dienTu.getSanPhams());
 
-        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false);
+        RecyclerView.LayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
 
         holder.recyclerViewTopSanPham.setLayoutManager(linearLayoutManager);
         holder.recyclerViewTopSanPham.setAdapter(adapterTopDienThoaiDienTu);
