@@ -59,11 +59,10 @@ import java.util.List;
 
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
-//    public static final String SERVER_NAME = "http://192.168.43.254/webservice/apiserver.php";
-//    public static final String SERVER = "http://192.168.43.254/webservice";
 
     public static final String SERVER_NAME = "http://192.168.1.35/webservice/apiserver.php";
     public static final String SERVER = "http://192.168.1.35/webservice";
+
 
     Toolbar toolbar;
     TabLayout tabLayout;

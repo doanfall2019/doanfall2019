@@ -1,12 +1,11 @@
 <?php 
-//Hieu ga
 	include_once("config.php");
 
 	if(isset($_POST["ham"]))
 	$ham=$_POST["ham"];
 
-	// if(isset($_GET["ham"]))
-	// $ham=$_GET["ham"];
+	// if(isset($_POST["ham"]))
+	// $ham=$_POST["ham"];
 
 	switch ($ham) {
 		case 'LayDanhSachMenu':
@@ -56,9 +55,6 @@
 		case 'TimKiemSanPhamTheoTenSP':
 			$ham();
 			break;
-			case 'ThemDanhGia':
-			$ham();
-			break;
 
 		case 'LaySanPhamVsChitietTheoMaSP':
 			$ham();
@@ -67,6 +63,120 @@
 		case 'LayDanhSachKhuyenMai':
 			$ham();
 			break;
+
+		case 'ThemDanhGia':
+			$ham(); 
+			break;
+
+		case 'ThemHoaDon':
+			$ham(); 
+			break;
+
+		case 'LayDanhSachDanhGiaTheoMaSP':
+			$ham(); 
+			break;
+
+	}
+
+	function LayDanhSachDanhGiaTheoMaSP(){
+		global $conn;
+		$chuoijson = array();
+
+		if(isset($_POST["masp"]) || isset($_POST["limit"]) ){
+			$masp = $_POST["masp"];
+			$limit = $_POST["limit"];
+		}
+
+		$truyvan = "SELECT * FROM danhgia WHERE MASP = ".$masp." ORDER BY NGAYDANHGIA LIMIT ".$limit." ,10";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		echo "{";
+		echo "\"DANHSACHDANHGIA\":";
+
+		if($ketqua){
+			while ($dong = mysqli_fetch_array($ketqua)) {
+				$chuoijson[] = $dong;
+			}
+		}
+
+		echo json_encode($chuoijson,JSON_UNESCAPED_UNICODE);
+
+		echo "}";
+
+	}
+
+	function ThemDanhGia(){
+		global $conn;
+
+		if(isset($_POST["madg"]) || isset($_POST["masp"]) || isset($_POST["tenthietbi"]) || isset($_POST["tieude"]) || isset($_POST["noidung"]) || isset($_POST["sosao"]) ){
+			$madg = $_POST["madg"];
+			$masp = $_POST["masp"];
+			$tenthietbi = $_POST["tenthietbi"];
+			$tieude = $_POST["tieude"];
+			$noidung = $_POST["noidung"];
+			$sosao = $_POST["sosao"];
+		}
+
+		$ngaydang = date("d/m/Y");
+
+		$truyvan = "INSERT INTO danhgia (MADG,MASP,TENTHIETBI,TIEUDE,NOIDUNG,SOSAO,NGAYDANHGIA) VALUES ('".$madg."', '".$masp."', '".$tenthietbi."', '".$tieude."', '".$noidung."', '".$sosao."', '".$ngaydang."' )";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		if($ketqua){
+			echo "{ketqua:true}";
+		}else{
+			echo "{ketqua:false}";	
+		}
+
+	}
+
+	function ThemHoaDon(){
+		global $conn;
+
+		if(isset($_POST["danhsachsanpham"]) || isset($_POST["tennguoinhan"]) || isset($_POST["sodt"]) || isset($_POST["diachi"]) || isset($_POST["chuyenkhoan"]) ){
+			$danhsachsanpham = $_POST["danhsachsanpham"];
+			$tennguoinhan = $_POST["tennguoinhan"];
+			$sodt = $_POST["sodt"];
+			$diachi = $_POST["diachi"];
+			$chuyenkhoan = $_POST["chuyenkhoan"];
+			
+		}
+		$ngayhientai = date("m/d/Y");
+		$ngaygiao = date_create($ngayhientai);
+		$ngaygiao = date_modify($ngaygiao,"+ 3 days");
+		$ngaygiao = date_format($ngaygiao,"m/d/Y");
+		
+		$trangthai ="Chờ kiểm duyệt";
+
+
+		
+		$truyvan = "INSERT INTO hoadon (NGAYMUA,NGAYGIAO,TRANGTHAI,TENNGUOINHAN,SODT,DIACHI,CHUYENKHOAN) VALUES ('".$ngayhientai."', '".$ngaygiao."', '".$trangthai."', '".$tennguoinhan."', '".$sodt."', '".$diachi."', '".$chuyenkhoan."')";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		if($ketqua){
+				
+			$mahd = mysqli_insert_id($conn);
+			$chuoijsonandroid = json_decode($danhsachsanpham);
+			$arrayDanhSachSanPham = $chuoijsonandroid->DANHSACHSANPHAM;
+			$dem = count($arrayDanhSachSanPham);
+
+			for($i=0; $i<$dem; $i++){
+				$jsonObect = $arrayDanhSachSanPham[$i];
+
+				$masp = $jsonObect->masp;
+				$soluong = $jsonObect->soluong;
+
+				$truyvan = "INSERT INTO chitiethoadon (MAHD,MASP,SOLUONG) VALUES ('".$mahd."', '".$masp."', '".$soluong."')";
+				$ketqua1 = mysqli_query($conn,$truyvan);
+
+
+			}
+
+			echo "{ketqua:true}" ;
+
+		}else{
+			echo "{ketqua:false}";	
+		}
 
 	}
 
@@ -103,29 +213,6 @@
 		echo "}";
 
 	}
-	function ThemDanhGia(){
-			global $conn;
-			if(isset($_POST["madg"]) || isset($_POST["masp"]) || isset($_POST["tenthietbi"]) || isset($_POST["tieude"]) || isset($_POST["noidung"]) || isset($_POST["sosao"])){
-				$madg = $_POST["madg"];
-				$masp =$_POST["masp"];
-				$tenthietbi =$_POST["tenthietbi"];
-				$tieude =$_POST["tieude"];
-				$noidung =$_POST["noidung"];
-				$sosao =$_POST["sosao"];
-				
-
-
-			}
-			$ngaydang = date("d/m/Y");
-			$truyvan = "INSERT INTO danhgia (MADG,MASP,TENTHIETBI,TIEUDE,NOIDUNG,SOSAO,NGAYDANG) VALUE('".$madg."','".$masp."','".$tenthietbi."','".$tieude."','".$noidung."','".$sosao."','".$ngaydang."')";
-			$ketqua = mysqli_query($conn, $truyvan);
-			if($ketqua){
-					echo "{ketqua:true}";
-			}else{
-				echo "{ketqua:false}".mysqli_error($const);
-			}
-			
-	}
 
 	function LaySanPhamVsChitietTheoMaSP(){
 		global $conn;
@@ -135,7 +222,9 @@
 			$masp = $_POST["masp"];
 		}
 
-		$truyvan = "SELECT * FROM sanpham sp , nguoidung nd WHERE MASP=".$masp." AND sp.MANGUOIDUNG = nd.MANGUOIDUNG ";
+		$ngayhientai = date("y/m/d");
+
+		$truyvan = "SELECT *, DATEDIFF(km.NGAYKETTHUC,'".$ngayhientai."') AS THOIHANKM FROM sanpham sp, nguoidung nd, khuyenmai km, chitietkhuyenmai ctkm WHERE sp.MASP=".$masp. " AND sp.MANGUOIDUNG = nd.MANGUOIDUNG AND sp.MASP=ctkm.MASP AND km.MAKM=ctkm.MAKM" ;
 		$ketqua = mysqli_query($conn, $truyvan);
 
 		echo "{";
@@ -145,6 +234,7 @@
 		$ketquachitiet = mysqli_query($conn, $truyvanchitiet);
 
 		if($ketquachitiet){
+
 			while ($dongchitiet = mysqli_fetch_array($ketquachitiet)) {
 				array_push($chuoijsonchitiet, array($dongchitiet["TENCHITIET"]=>$dongchitiet["GIATRI"]));
 			}
@@ -152,8 +242,17 @@
 
 
 		if($ketqua){
+			$phamtramkm = 0;
+			
 			while ($dong = mysqli_fetch_array($ketqua)) {
-				array_push($chuoijson,array("MASP"=>$dong["MASP"],"TENSP"=>$dong["TENSP"],"GIATIEN"=>$dong["GIA"],"SOLUONG"=>$dong["SOLUONG"],"HINHSANPHAM"=>$dong["HINHLON"],"HINHSANPHAMNHO"=>$dong["HINHNHO"],"THONGTIN"=>$dong["THONGTIN"],"MALOAISP"=>$dong["MALOAISP"],"MATHUONGHIEU"=>$dong["MATHUONGHIEU"],"MANGUOIDUNG"=>$dong["MANGUOIDUNG"],"TENNGUOIDUNG"=>$dong["TENNGUOIDUNG"],"LUOTMUA"=>$dong["LUOTMUA"],"THONGSOKYTHUAT"=>$chuoijsonchitiet));
+				
+				$thoigiankm = $dong["THOIHANKM"];
+
+				if($thoigiankm >= 0){
+					$phamtramkm = $dong["PHANTRAMKM"];
+				}
+
+				array_push($chuoijson,array("MASP"=>$dong["MASP"],"TENSP"=>$dong["TENSP"],"GIATIEN"=>$dong["GIA"],"SOLUONG"=>$dong["SOLUONG"],"HINHSANPHAM"=>$dong["HINHLON"],"HINHSANPHAMNHO"=>$dong["HINHNHO"],"THONGTIN"=>$dong["THONGTIN"],"MALOAISP"=>$dong["MALOAISP"],"MATHUONGHIEU"=>$dong["MATHUONGHIEU"],"MANGUOIDUNG"=>$dong["MANGUOIDUNG"],"TENNGUOIDUNG"=>$dong["TENNGUOIDUNG"],"PHANTRAMKM"=>$dong["PHANTRAMKM"],"LUOTMUA"=>$dong["LUOTMUA"],"THONGSOKYTHUAT"=>$chuoijsonchitiet));
 			}
 		}
 
@@ -168,9 +267,9 @@
 		if(isset($_POST["tensp"])|| isset($_POST["limit"])){
 			$tensp = $_POST["tensp"];
 			$limit = $_POST["limit"];
-			// 	if(isset($_GET["tensp"])|| isset($_GET["limit"])){
-			// $tensp = $_GET["tensp"];
-			// $limit = $_GET["limit"];
+			// 	if(isset($_POST["tensp"])|| isset($_POST["limit"])){
+			// $tensp = $_POST["tensp"];
+			// $limit = $_POST["limit"];
 		}
 		$truyvan = "SELECT * FROM sanpham WHERE TENSP LIKE '%".$tensp."%'";
 		
@@ -439,12 +538,12 @@
 
 	function KiemTraDangNhap(){
 		global $conn;
-		if(isset($_POST["tendangnhap"]) || isset($_POST["tendangnhap"])){
+		if(isset($_POST["tendangnhap"]) || isset($_POST["matkhau"])){
 			$tendangnhap = $_POST["tendangnhap"];
 			$matkhau = $_POST["matkhau"];
 		}
 
-		$truyvan = "SELECT * FROM nguoidung WHERE TENDANGNHAP='".$tendangnhap."' AND MATKHAU='".$matkhau."'";
+		$truyvan = "SELECT * FROM nguoidung WHERE TENDN='".$tendangnhap."' AND MATKHAU='".$matkhau."'";
 		$ketqua = mysqli_query($conn, $truyvan); 
 		$demdong = mysqli_num_rows($ketqua);
 		if($demdong >=1){
@@ -471,7 +570,7 @@
 		}
 	
 
-		$truyvan= "INSERT INTO nguoidung (TENNGUOIDUNG, TENDANGNHAP, MATKHAU, MALOAINGUOIDUNG,EMAILDOCQUYEN) 
+		$truyvan= "INSERT INTO nguoidung (TENNGUOIDUNG, TENDN, MATKHAU, MALOAINGUOIDUNG,EMAILDOCQUYEN) 
 		VALUES ('".$tennguoidung."', '".$tendangnhap."', '".$matkhau."', '".$maloainguoidung."', '".$emaildocquyen."')";
 
 		if (mysqli_query($conn, $truyvan)) {

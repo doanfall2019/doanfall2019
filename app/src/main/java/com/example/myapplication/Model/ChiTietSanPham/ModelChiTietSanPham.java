@@ -141,6 +141,7 @@ public class ModelChiTietSanPham {
 
                 sanPham.setChiTietSanPhamList(chiTietSanPhams);
 
+
             }
         } catch (ExecutionException e) {
             e.printStackTrace();

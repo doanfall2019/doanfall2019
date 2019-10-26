@@ -74,7 +74,7 @@ public class FragmentDangNhap extends Fragment implements View.OnClickListener, 
             }
         });
 
-        modelDangNhap = new ModelDangNhap();
+
 
         btnDangNhap = view.findViewById(R.id.btnDangNhap);
         edTenDangNhap = view.findViewById(R.id.edDiaChiEmailDN);

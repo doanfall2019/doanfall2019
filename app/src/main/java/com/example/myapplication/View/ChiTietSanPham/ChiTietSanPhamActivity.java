@@ -115,7 +115,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
 
         presenterLogicChiTietSanPham = new PresenterLogicChiTietSanPham(this);
         presenterLogicChiTietSanPham.LayChiTietSanPham(masp);
-        presenterLogicChiTietSanPham.LayDanhSachDanhGiaTheoCuaSanPham(masp, 1);
+        presenterLogicChiTietSanPham.LayDanhSachDanhGiaTheoCuaSanPham(masp, 0);
 
 
         txtVietDanhGia.setOnClickListener(this);
@@ -211,15 +211,16 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
     private void HienThiThongSoKythuat(SanPham sanPham) {
 
         List<ChiTietSanPham> chiTietSanPhams = sanPham.getChiTietSanPhamList();
+        Log.d("test", chiTietSanPhams+"");
         lnThongSoKyThuat.removeAllViews();
         TextView txtTieuDeThongSoKyThuat = new TextView(this);
         txtTieuDeThongSoKyThuat.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         lnThongSoKyThuat.addView(txtTieuDeThongSoKyThuat);
+
         for (int i = 0; i < chiTietSanPhams.size(); i++) {
             LinearLayout lnChiTiet = new LinearLayout(this);
             lnChiTiet.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             lnChiTiet.setOrientation(LinearLayout.HORIZONTAL);
-
 
             TextView txtTenThongSo = new TextView(this);
             txtTenThongSo.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f));
