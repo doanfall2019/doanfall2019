@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Model.ChiTietSanPham.ModelChiTietSanPham;
 import com.example.myapplication.Model.GioHang.ModelGioHang;
+import com.example.myapplication.Model.ObjectClass.DanhGia;
 import com.example.myapplication.Model.ObjectClass.SanPham;
 import com.example.myapplication.View.ChiTietSanPham.ViewChiTietSanPham;
 
@@ -33,8 +34,10 @@ public class PresenterLogicChiTietSanPham implements  IPresenterChiTietSanPham {
         if (sanPham.getMASP() > 0){
             String[] linkhinhanh = sanPham.getANHNHO().split(",");
             viewChiTietSanPham.HienSliderSanPham(linkhinhanh);
-
+            //hien thi phuong thuc chi tiet san pham
             viewChiTietSanPham.HienThiChiTietSanPham(sanPham);
+
+
         }
     }
 
@@ -47,11 +50,23 @@ public class PresenterLogicChiTietSanPham implements  IPresenterChiTietSanPham {
         }else {
             viewChiTietSanPham.ThemGioHangThatBai();
 
+
             //hien thi phuong thuc chi tiet san pham
             viewChiTietSanPham.HienThiChiTietSanPham(sanPham);
 
+
         }
     }
+
+    @Override
+    public void LayDanhSachDanhGiaTheoCuaSanPham(int masp, int limit) {
+        List<DanhGia> danhGias = modelChiTietSanPham.LayDanhSachDanhGiaCuaSanPham(masp,limit);
+        if(danhGias.size()>0){
+            viewChiTietSanPham.HienThiDanhGia(danhGias);
+
+        }
+    }
+
     public int DemSanPhamTrongGioHang(Context context){
         modelGioHang.MoKetNoiSQL(context);
         List<SanPham> sanPhamList=modelGioHang.LayDanhSachSPTrongGH();

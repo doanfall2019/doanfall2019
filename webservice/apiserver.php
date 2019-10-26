@@ -1,6 +1,9 @@
 <?php 
 	include_once("config.php");
 
+
+	
+
 	if(isset($_POST["ham"]))
 	$ham=$_POST["ham"];
 
@@ -63,6 +66,117 @@
 		case 'LayDanhSachKhuyenMai':
 			$ham();
 			break;
+			case 'ThemDanhGia':
+			$ham(); 
+			break;
+
+			case 'ThemHoaDon':
+			$ham(); 
+			break;
+
+			case 'LayDanhSachDanhGiaTheoMaSP':
+			$ham(); 
+			break;
+	}
+	function LayDanhSachDanhGiaTheoMaSP(){
+		global $conn;
+		$chuoijson = array();
+
+		if(isset($_POST["masp"]) || isset($_POST["limit"]) ){
+			$masp = $_POST["masp"];
+			$limit = $_POST["limit"];
+		}
+
+		$truyvan = "SELECT * FROM danhgia WHERE MASP = ".$masp." ORDER BY NGAYDANHGIA LIMIT ".$limit." ,10";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		echo "{";
+		echo "\"DANHSACHDANHGIA\":";
+
+		if($ketqua){
+			while ($dong = mysqli_fetch_array($ketqua)) {
+				$chuoijson[] = $dong;
+			}
+		}
+
+		echo json_encode($chuoijson,JSON_UNESCAPED_UNICODE);
+
+		echo "}";
+
+	}
+
+	function ThemDanhGia(){
+		global $conn;
+
+		if(isset($_POST["madg"]) || isset($_POST["masp"]) || isset($_POST["tenthietbi"]) || isset($_POST["tieude"]) || isset($_POST["noidung"]) || isset($_POST["sosao"]) ){
+			$madg = $_POST["madg"];
+			$masp = $_POST["masp"];
+			$tenthietbi = $_POST["tenthietbi"];
+			$tieude = $_POST["tieude"];
+			$noidung = $_POST["noidung"];
+			$sosao = $_POST["sosao"];
+		}
+
+		$ngaydang = date("d/m/Y");
+
+		$truyvan = "INSERT INTO danhgia (MADG,MASP,TENTHIETBI,TIEUDE,NOIDUNG,SOSAO,NGAYDANHGIA) VALUES ('".$madg."', '".$masp."', '".$tenthietbi."', '".$tieude."', '".$noidung."', '".$sosao."', '".$ngaydang."' )";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		if($ketqua){
+			echo "{ketqua:true}";
+		}else{
+			echo "{ketqua:false}";	
+		}
+
+	}
+
+	function ThemHoaDon(){
+		global $conn;
+
+		if(isset($_POST["danhsachsanpham"]) || isset($_POST["tennguoinhan"]) || isset($_POST["sodt"]) || isset($_POST["diachi"]) || isset($_POST["chuyenkhoan"]) ){
+			$danhsachsanpham = $_POST["danhsachsanpham"];
+			$tennguoinhan = $_POST["tennguoinhan"];
+			$sodt = $_POST["sodt"];
+			$diachi = $_POST["diachi"];
+			$chuyenkhoan = $_POST["chuyenkhoan"];
+			
+		}
+		$ngayhientai = date("m/d/Y");
+		$ngaygiao = date_create($ngayhientai);
+		$ngaygiao = date_modify($ngaygiao,"+ 3 days");
+		$ngaygiao = date_format($ngaygiao,"m/d/Y");
+		
+		$trangthai ="Chờ kiểm duyệt";
+
+
+		
+		$truyvan = "INSERT INTO hoadon (NGAYMUA,NGAYGIAO,TRANGTHAI,TENNGUOINHAN,SODT,DIACHI,CHUYENKHOAN) VALUES ('".$ngayhientai."', '".$ngaygiao."', '".$trangthai."', '".$tennguoinhan."', '".$sodt."', '".$diachi."', '".$chuyenkhoan."')";
+		$ketqua = mysqli_query($conn,$truyvan);
+
+		if($ketqua){
+				
+			$mahd = mysqli_insert_id($conn);
+			$chuoijsonandroid = json_decode($danhsachsanpham);
+			$arrayDanhSachSanPham = $chuoijsonandroid->DANHSACHSANPHAM;
+			$dem = count($arrayDanhSachSanPham);
+
+			for($i=0; $i<$dem; $i++){
+				$jsonObect = $arrayDanhSachSanPham[$i];
+
+				$masp = $jsonObect->masp;
+				$soluong = $jsonObect->soluong;
+
+				$truyvan = "INSERT INTO chitiethoadon (MAHD,MASP,SOLUONG) VALUES ('".$mahd."', '".$masp."', '".$soluong."')";
+				$ketqua1 = mysqli_query($conn,$truyvan);
+
+
+			}
+
+			echo "{ketqua:true}" ;
+
+		}else{
+			echo "{ketqua:false}";	
+		}
 
 	}
 
