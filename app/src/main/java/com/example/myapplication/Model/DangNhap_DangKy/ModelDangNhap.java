@@ -104,30 +104,6 @@ public class ModelDangNhap {
         return  accessToken;
     }
 
-    public GoogleApiClient LayGoogleApiClient(Context context, GoogleApiClient.OnConnectionFailedListener failedListener){
-        GoogleApiClient mGoogleApiClient;
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        mGoogleApiClient = new GoogleApiClient.Builder(context)
-                .enableAutoManage((AppCompatActivity)context,failedListener)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-                .build();
-
-
-        return  mGoogleApiClient;
-    }
-
-    public GoogleSignInResult LayThongTinDangNhapGoogle(GoogleApiClient googleApiClient){
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(googleApiClient);
-        if (opr.isDone()){
-            return  opr.get();
-        } else {
-            return null;
-        }
-    }
-
     public void HuyTokenTracker(){
         accessTokenTracker.stopTracking();
     }

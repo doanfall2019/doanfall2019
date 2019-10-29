@@ -248,7 +248,7 @@
 				
 				$thoigiankm = $dong["THOIHANKM"];
 
-				if($thoigiankm >= 0){
+				if($thoigiankm > 0){
 					$phamtramkm = $dong["PHANTRAMKM"];
 				}
 
@@ -267,9 +267,7 @@
 		if(isset($_POST["tensp"])|| isset($_POST["limit"])){
 			$tensp = $_POST["tensp"];
 			$limit = $_POST["limit"];
-			// 	if(isset($_POST["tensp"])|| isset($_POST["limit"])){
-			// $tensp = $_POST["tensp"];
-			// $limit = $_POST["limit"];
+			
 		}
 		$truyvan = "SELECT * FROM sanpham WHERE TENSP LIKE '%".$tensp."%'";
 		

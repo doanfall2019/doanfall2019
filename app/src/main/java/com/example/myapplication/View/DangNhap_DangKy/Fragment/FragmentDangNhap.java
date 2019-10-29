@@ -34,16 +34,14 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
-public class FragmentDangNhap extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+public class FragmentDangNhap extends Fragment implements View.OnClickListener {
 
     Button btnDangNhap;
     ModelDangNhap modelDangNhap;
     EditText edTenDangNhap, edMatKhau;
 
-    Button btnDangNhapFacebook, btnDangNhapGoogle;
+    Button btnDangNhapFacebook;
     CallbackManager callbackManager;
-    GoogleApiClient mGoogleApiClient;
-    public static int SIGN_IN_GOOGLE = 111;
     ProgressDialog progressDialog;
 
     @Nullable
@@ -51,8 +49,7 @@ public class FragmentDangNhap extends Fragment implements View.OnClickListener, 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dang_nhap, container, false);
 
-        ModelDangNhap modelDangNhap = new ModelDangNhap();
-        mGoogleApiClient = modelDangNhap.LayGoogleApiClient(getContext(),this);
+        modelDangNhap = new ModelDangNhap();
 
         FacebookSdk.sdkInitialize(getContext().getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -81,12 +78,11 @@ public class FragmentDangNhap extends Fragment implements View.OnClickListener, 
         edMatKhau = view.findViewById(R.id.edMatKhauDN);
 
         btnDangNhapFacebook = view.findViewById(R.id.btnDangNhapFacebook);
-        btnDangNhapGoogle = view.findViewById(R.id.btnDangNhapGoogle);
 
 
         btnDangNhap.setOnClickListener(this);
         btnDangNhapFacebook.setOnClickListener(this);
-        btnDangNhapGoogle.setOnClickListener(this);
+
 
 
         return view;
@@ -114,12 +110,6 @@ public class FragmentDangNhap extends Fragment implements View.OnClickListener, 
                 LoginManager.getInstance().logInWithReadPermissions(FragmentDangNhap.this, Arrays.asList("public_profile"));
                 break;
 
-            case R.id.btnDangNhapGoogle:
-                Intent iGoogle = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                startActivityForResult(iGoogle, SIGN_IN_GOOGLE);
-                ShowProgressDialog();
-                break;
-
         }
 
     }
@@ -136,20 +126,13 @@ public class FragmentDangNhap extends Fragment implements View.OnClickListener, 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SIGN_IN_GOOGLE) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-//            Log.d("google", result.getSignInAccount().getEmail());
-            if (result.isSuccess()){
+
+
                 progressDialog.cancel();
                 Intent iTrangChu = new Intent(getActivity(), TrangChuActivity.class);
                 startActivity(iTrangChu);
-            }
-        }
-    }
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        progressDialog.cancel();
 
     }
+
 }

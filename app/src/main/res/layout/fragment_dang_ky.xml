@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Chúng tôi đã hiểu rõ các điều khoản bảo mật của Lazada" />
+            android:text="Chúng tôi đã hiểu rõ các điều khoản bảo mật của Makto" />
 
         <TextView
             android:layout_width="match_parent"

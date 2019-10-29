@@ -60,8 +60,8 @@ import java.util.List;
 public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu, AppBarLayout.OnOffsetChangedListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
 
-    public static final String SERVER_NAME = "http://192.168.1.35/webservice/apiserver.php";
-    public static final String SERVER = "http://192.168.1.35/webservice";
+    public static final String SERVER_NAME = "http://21.64.15.69/webservice/apiserver.php";
+    public static final String SERVER = "http://21.64.15.69/webservice";
 
 
     Toolbar toolbar;
@@ -83,8 +83,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
     AccessToken accessToken;
     MenuItem itemDangNhap;
     MenuItem menuItemDangXuat;
-    GoogleApiClient mGoogleApiClient;
-    GoogleSignInResult googleSignInResult;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,9 +120,6 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
 
         logicXuLyMenu.LayTenNguoiDungFaceBook();
 
-        mGoogleApiClient = modelDangNhap.LayGoogleApiClient(this, this);
-
-
         btnSearch.setOnClickListener(this);
         im_btn_Search.setOnClickListener(this);
 
@@ -140,7 +136,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         menuItemDangXuat = menu.findItem(R.id.itDangXuat);
 
         accessToken = logicXuLyMenu.LayTenNguoiDungFaceBook();
-        googleSignInResult = modelDangNhap.LayThongTinDangNhapGoogle(mGoogleApiClient);
+
         if (accessToken != null) {
             GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
                 @Override
@@ -163,18 +159,13 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
             graphRequest.executeAsync();
         }
 
-        if (googleSignInResult != null) {
-            itemDangNhap.setTitle(googleSignInResult.getSignInAccount().getDisplayName());
-        }
-
-
         String tennguoidung = modelDangNhap.LayCachedDangNhap(this);
         if (!tennguoidung.equals("")) {
 
             itemDangNhap.setTitle(tennguoidung);
         }
 
-        if (accessToken != null || googleSignInResult != null || !tennguoidung.equals("")) {
+        if (accessToken != null || !tennguoidung.equals("")) {
             menuItemDangXuat.setVisible(true);
         }
 
@@ -207,7 +198,7 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
         int id = item.getItemId();
         switch (id) {
             case R.id.itDangNhap:
-                if (accessToken == null && googleSignInResult == null && modelDangNhap.LayCachedDangNhap(this).equals("")) {
+                if (accessToken == null && modelDangNhap.LayCachedDangNhap(this).equals("")) {
                     Intent iDangNhap = new Intent(this, DangNhapActivity.class);
                     startActivity(iDangNhap);
                 }
@@ -216,19 +207,14 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
             case R.id.itDangXuat:
                 if (accessToken != null) {
                     LoginManager.getInstance().logOut();
-                    this.menu.clear();
-                    this.onCreateOptionsMenu(this.menu);
                 }
-                if (googleSignInResult != null) {
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient);
-                    this.menu.clear();
-                    this.onCreateOptionsMenu(this.menu);
-                }
+
                 if (!modelDangNhap.LayCachedDangNhap(this).equals("")) {
                     modelDangNhap.CapNhatCachedDangNhap(this, "");
-                    this.menu.clear();
-                    this.onCreateOptionsMenu(this.menu);
+
                 }
+                this.menu.clear();
+                this.onCreateOptionsMenu(this.menu);
                 break;
 
 
@@ -299,7 +285,10 @@ public class TrangChuActivity extends AppCompatActivity implements ViewXuLyMenu,
                 Intent iTimkiem = new Intent(this, TimKiemActivity.class);
                 startActivity(iTimkiem);
                 break;
-
+            case R.id.btnSearch:
+                Intent iTimkiem2 = new Intent(this, TimKiemActivity.class);
+                startActivity(iTimkiem2);
+                break;
 
         }
     }

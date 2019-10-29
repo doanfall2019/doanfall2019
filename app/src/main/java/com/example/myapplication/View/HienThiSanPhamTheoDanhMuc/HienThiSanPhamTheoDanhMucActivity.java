@@ -19,6 +19,8 @@ import com.example.myapplication.Model.ObjectClass.LoadMoreScroll;
 import com.example.myapplication.Model.ObjectClass.SanPham;
 import com.example.myapplication.Presenter.HienThiSanPhamTheoDanhMuc.PresenterLogicHienThiSanPhamTheoDanhMuc;
 import com.example.myapplication.R;
+import com.example.myapplication.View.DangNhap_DangKy.DangNhapActivity;
+import com.example.myapplication.View.TrangChu.TrangChuActivity;
 import com.example.myapplication.View.TrangChu.ViewHienThiSanPhamTheoDanhMuc;
 
 import java.util.List;
@@ -59,6 +61,16 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
 
         toolbar.setTitle(tensanpham);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iTrangChu = new Intent(HienThiSanPhamTheoDanhMucActivity.this, TrangChuActivity.class);
+                startActivity(iTrangChu);
+            }
+        });
 
     }
 

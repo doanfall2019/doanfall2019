@@ -12,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 
 import android.graphics.Bitmap;
@@ -38,6 +39,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.Adapter.AdapterDanhGia;
 import com.example.myapplication.Adapter.AdapterViewPagerSlider;
+import com.example.myapplication.Model.ObjectClass.ChiTietKhuyenMai;
 import com.example.myapplication.Model.ObjectClass.ChiTietSanPham;
 import com.example.myapplication.Model.ObjectClass.DanhGia;
 import com.example.myapplication.Model.ObjectClass.SanPham;
@@ -45,6 +47,7 @@ import com.example.myapplication.Presenter.ChiTietSanPham.FragmentSliderChiTietS
 import com.example.myapplication.Presenter.ChiTietSanPham.PresenterLogicChiTietSanPham;
 import com.example.myapplication.R;
 
+import com.example.myapplication.View.DangNhap_DangKy.DangNhapActivity;
 import com.example.myapplication.View.DanhGia.DanhSachDanhGiaActivity;
 import com.example.myapplication.View.DanhGia.ThemDanhGia1Activity;
 import com.example.myapplication.View.TrangChu.TrangChuActivity;
@@ -67,7 +70,7 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
     TextView[] txtDots;
     LinearLayout layoutDots;
 
-    TextView txtTenSanPham, txtGiaTien, txtTenCHDongGoi, txtThongTinChiTiet, txtXemTatCaNhanXet;//1
+    TextView txtTenSanPham, txtGiaTien, txtGiamGia,txtTenCHDongGoi, txtThongTinChiTiet, txtXemTatCaNhanXet;//1
     Toolbar toolbar;
     ImageView imXemThemChiTiet;
     LinearLayout lnThongSoKyThuat;
@@ -105,11 +108,23 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
         toolbar = findViewById(R.id.toolbar);
         recyclerDanhGiaChiTiet = findViewById(R.id.recyclerDanhGiaChiTiet);
 
+        txtGiamGia = findViewById(R.id.txtGiamGia);
+
         imThemGioHang = findViewById(R.id.imThemGioHang);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent iTrangChu = new Intent(ChiTietSanPhamActivity.this, TrangChuActivity.class);
+                startActivity(iTrangChu);
+            }
+        });
 
         masp = getIntent().getIntExtra("masp", 0);
 
@@ -173,9 +188,25 @@ public class ChiTietSanPhamActivity extends AppCompatActivity implements ViewChi
 
         txtTenSanPham.setText(sanPham.getTENSP());//3
 
+        int giatien = sanPham.getGIA();
+        ChiTietKhuyenMai chiTietKhuyenMai = sanPham.getChiTietKhuyenMai();
+
+        if (chiTietKhuyenMai != null){
+            int phantramkm = chiTietKhuyenMai.getPHANTRAMKM();
+
+            if (phantramkm !=0){
+                NumberFormat numberFormat = new DecimalFormat("###,###");
+                String gia = numberFormat.format(giatien);
+                txtGiamGia.setVisibility(View.VISIBLE);
+                txtGiamGia.setPaintFlags(txtGiamGia.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                txtGiamGia.setText(gia+ " VND");
+                giatien = giatien * phantramkm/100;
+            }
+        }
+
         NumberFormat numberFormat = new DecimalFormat("###,###");
-        String gia = numberFormat.format(sanPham.getGIA());
-        txtGiaTien.setText(gia + "VND");
+        String gia = numberFormat.format(giatien);
+        txtGiaTien.setText(gia + " VND");
         txtTenCHDongGoi.setText(sanPham.getTENNGUOIDUNG());//lay ten nguoi dung
         txtThongTinChiTiet.setText(sanPham.getTHONGTIN().substring(0, 100));
         if (sanPham.getTHONGTIN().length() < 100) {
