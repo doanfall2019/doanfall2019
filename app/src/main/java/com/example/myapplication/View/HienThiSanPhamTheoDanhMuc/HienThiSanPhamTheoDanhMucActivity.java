@@ -53,12 +53,12 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
         btnGiaGiam = findViewById(R.id.btnGiaGiam);
 
         Intent intent = getIntent();
-        masp = intent.getIntExtra("MALOAI",0);
+        masp = intent.getIntExtra("MALOAI", 0);
         String tensanpham = intent.getStringExtra("TENLOAI");
         kiemtra = intent.getBooleanExtra("KIEMTRA", false);
 
         sanPhamTheoDanhMuc = new PresenterLogicHienThiSanPhamTheoDanhMuc(this);
-        sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp,kiemtra);
+        sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp, kiemtra);
 
         btnThayDoiTrangThaiRecycler.setOnClickListener(this);
         btnGiaTang.setOnClickListener(this);
@@ -81,7 +81,7 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menutrangchu,menu);
+        getMenuInflater().inflate(R.menu.menutrangchu, menu);
         return true;
     }
 
@@ -89,12 +89,12 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
     public void HienThiDanhSachSanPham(List<SanPham> sanPhamList) {
         sanPhamList1 = sanPhamList;
 
-        if (dangGrid){
-            layoutManager = new GridLayoutManager(HienThiSanPhamTheoDanhMucActivity.this,2);
-            adapterTopDienThoaiDienTu = new AdapterTopDienThoaiDienTu(HienThiSanPhamTheoDanhMucActivity.this,R.layout.custom_layout_topdienthoaivamaytinhbang,sanPhamList1);
+        if (dangGrid) {
+            layoutManager = new GridLayoutManager(HienThiSanPhamTheoDanhMucActivity.this, 2);
+            adapterTopDienThoaiDienTu = new AdapterTopDienThoaiDienTu(HienThiSanPhamTheoDanhMucActivity.this, R.layout.custom_layout_topdienthoaivamaytinhbang, sanPhamList1);
         } else {
             layoutManager = new LinearLayoutManager(HienThiSanPhamTheoDanhMucActivity.this);
-            adapterTopDienThoaiDienTu = new AdapterTopDienThoaiDienTu(HienThiSanPhamTheoDanhMucActivity.this,R.layout.custom_layout_list_topdienthoaivamaytinhbang,sanPhamList1);
+            adapterTopDienThoaiDienTu = new AdapterTopDienThoaiDienTu(HienThiSanPhamTheoDanhMucActivity.this, R.layout.custom_layout_list_topdienthoaivamaytinhbang, sanPhamList1);
         }
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapterTopDienThoaiDienTu);
@@ -111,26 +111,27 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id){
+        switch (id) {
             case R.id.btnThayDoiTrangThaiRecycler:
                 dangGrid = !dangGrid;
-                sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp,kiemtra);
-                break;
-            case R.id.btnGiaTang:
-                Toast.makeText(this, "Gia tang dan", Toast.LENGTH_SHORT).show();
+                sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp, kiemtra);
                 break;
             case R.id.btnGiaGiam:
-                Toast.makeText(this, "Gia giam dan", Toast.LENGTH_SHORT).show();
+                sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp,kiemtra);
                 break;
 
+            case R.id.btnGiaTang:
+                sanPhamTheoDanhMuc.layDanhSachSanPhamTheoGiaTang(masp);
+                break;
         }
     }
 
     @Override
     public void LoadMore(int tongitem) {
-       List<SanPham> ListsanPhamsLoadMore =  sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoaiLoadMore(masp, kiemtra, tongitem,progressBar);
-       sanPhamList1.addAll(ListsanPhamsLoadMore);
+        List<SanPham> ListsanPhamsLoadMore = sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoaiLoadMore(masp, kiemtra, tongitem, progressBar);
+        sanPhamList1.addAll(ListsanPhamsLoadMore);
 
-       adapterTopDienThoaiDienTu.notifyDataSetChanged();
+        adapterTopDienThoaiDienTu.notifyDataSetChanged();
     }
 }
+

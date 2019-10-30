@@ -1,7 +1,9 @@
 package com.example.myapplication.Presenter.HienThiSanPhamTheoDanhMuc;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.myapplication.Model.HienThiSanPhamTheoDanhMuc.ModelHienThiSanPhamTheoDanhMuc;
 import com.example.myapplication.Model.ObjectClass.SanPham;
@@ -34,6 +36,13 @@ public class PresenterLogicHienThiSanPhamTheoDanhMuc implements IPresenterHienTh
         } else {
             viewHienThiSanPhamTheoDanhMuc.LoiHienThiDanhSachSanPham();
         }
+    }
+
+    public void layDanhSachSanPhamTheoGiaTang(int masp) {
+        List<SanPham> sanPhamList = new ArrayList<>();
+        sanPhamList = modelHienThiSanPhamTheoDanhMuc.LayDanhSachSanPhamTheoGiaTang(masp, "DANHSACHSANPHAM", "LayDanhSachSanPhamTheoGiaTang", 0);
+        viewHienThiSanPhamTheoDanhMuc.HienThiDanhSachSanPham(sanPhamList);
+
     }
 
     public List<SanPham> layDanhSachSanPhamTheoMaLoaiLoadMore(int masp, boolean kiemtra, int limit, ProgressBar progressBar) {
