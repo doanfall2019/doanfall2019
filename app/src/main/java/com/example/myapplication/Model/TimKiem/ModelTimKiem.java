@@ -1,6 +1,7 @@
 package com.example.myapplication.Model.TimKiem;
 
 import com.example.myapplication.ConnectInternet.DownloadJSON;
+import com.example.myapplication.Model.ObjectClass.ChiTietKhuyenMai;
 import com.example.myapplication.Model.ObjectClass.SanPham;
 import com.example.myapplication.View.TrangChu.TrangChuActivity;
 
@@ -50,6 +51,11 @@ public class ModelTimKiem {
             for (int i = 0; i < dem; i++) {
                 SanPham sanPham = new SanPham();
                 JSONObject object = jsonArrayDanhSachSanPham.getJSONObject(i);
+
+                ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai();
+                chiTietKhuyenMai.setPHANTRAMKM(object.getInt("PHANTRAMKM"));
+
+                sanPham.setChiTietKhuyenMai(chiTietKhuyenMai);
 
                 sanPham.setMASP(object.getInt("MASP"));
                 sanPham.setTENSP(object.getString("TENSP"));

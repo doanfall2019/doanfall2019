@@ -1,6 +1,7 @@
 package com.example.myapplication.Model.Trangchu_DienTu;
 
 import com.example.myapplication.ConnectInternet.DownloadJSON;
+import com.example.myapplication.Model.ObjectClass.ChiTietKhuyenMai;
 import com.example.myapplication.Model.ObjectClass.SanPham;
 import com.example.myapplication.Model.ObjectClass.ThuongHieu;
 import com.example.myapplication.Model.TrangChu.XuLyMenu.XuLyJSONMenu;
@@ -45,6 +46,10 @@ public class ModelDienTu {
                 SanPham sanPham = new SanPham();
                 JSONObject object = jsonArrayDanhSachSanPham.getJSONObject(i);
 
+                ChiTietKhuyenMai chiTietKhuyenMai = new ChiTietKhuyenMai();
+                chiTietKhuyenMai.setPHANTRAMKM(object.getInt("PHANTRAMKM"));
+
+                sanPham.setChiTietKhuyenMai(chiTietKhuyenMai);
                 sanPham.setMASP(object.getInt("MASP"));
                 sanPham.setTENSP(object.getString("TENSP"));
                 sanPham.setGIA(object.getInt("GIATIEN"));

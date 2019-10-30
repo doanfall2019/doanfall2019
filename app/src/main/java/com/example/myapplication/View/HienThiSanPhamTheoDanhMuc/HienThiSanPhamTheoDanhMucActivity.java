@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.myapplication.Adapter.AdapterTopDienThoaiDienTu;
 import com.example.myapplication.Model.ObjectClass.ILoadMore;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity implements ViewHienThiSanPhamTheoDanhMuc, View.OnClickListener, ILoadMore {
     RecyclerView recyclerView;
-    Button btnThayDoiTrangThaiRecycler;
+    Button btnThayDoiTrangThaiRecycler, btnGiaTang, btnGiaGiam;
     boolean dangGrid = true;
     RecyclerView.LayoutManager layoutManager;
     PresenterLogicHienThiSanPhamTheoDanhMuc sanPhamTheoDanhMuc;
@@ -48,6 +49,8 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
         btnThayDoiTrangThaiRecycler = findViewById(R.id.btnThayDoiTrangThaiRecycler);
         toolbar = findViewById(R.id.toolbar);
         progressBar = findViewById(R.id.progressBar);
+        btnGiaTang = findViewById(R.id.btnGiaTang);
+        btnGiaGiam = findViewById(R.id.btnGiaGiam);
 
         Intent intent = getIntent();
         masp = intent.getIntExtra("MALOAI",0);
@@ -58,6 +61,8 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
         sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp,kiemtra);
 
         btnThayDoiTrangThaiRecycler.setOnClickListener(this);
+        btnGiaTang.setOnClickListener(this);
+        btnGiaGiam.setOnClickListener(this);
 
         toolbar.setTitle(tensanpham);
         setSupportActionBar(toolbar);
@@ -111,6 +116,13 @@ public class HienThiSanPhamTheoDanhMucActivity extends AppCompatActivity impleme
                 dangGrid = !dangGrid;
                 sanPhamTheoDanhMuc.layDanhSachSanPhamTheoMaLoai(masp,kiemtra);
                 break;
+            case R.id.btnGiaTang:
+                Toast.makeText(this, "Gia tang dan", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.btnGiaGiam:
+                Toast.makeText(this, "Gia giam dan", Toast.LENGTH_SHORT).show();
+                break;
+
         }
     }
 
